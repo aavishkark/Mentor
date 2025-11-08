@@ -10,9 +10,9 @@ const Navbar = () => {
         <Link href='/'>
             <div className='flex items-center gap-2 cursor-pointer'>
                 <Image 
-                    src={'/images/mentor.png'}
+                    src={'/images/logo.png'}
                     alt='logo'
-                    width={46}
+                    width={86}
                     height={44}
                 />
             </div>

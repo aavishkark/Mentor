@@ -12,7 +12,7 @@ const navItems = [
 ]
 
 const NavItems = () => {
-    const pathname = usePathname();
+    const route = usePathname();
 
     return (
         <nav className="navitems">
@@ -20,7 +20,7 @@ const NavItems = () => {
                 <Link
                     href={href}
                     key={label}
-                    className={cn(pathname === href && 'text-primary font-semibold')}
+                    className={cn(route === href && 'text-primary font-semibold')}
                 >
                     {label}
                 </Link>
