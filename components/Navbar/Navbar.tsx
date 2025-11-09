@@ -19,6 +19,7 @@ const Navbar = () => {
         </Link>
         <div className='navitems'>
               <NavItems/>
+              <p>Sign in</p>
         </div>
     </nav>
   );

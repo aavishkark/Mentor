@@ -1,0 +1,17 @@
+.newmentor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .newmentor {
+    width: 66.666667%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .newmentor {
+    width: 33.333333%;
+  }
+}

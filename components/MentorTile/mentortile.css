@@ -1,0 +1,45 @@
+.mentor-tile {
+  display: flex;
+  flex-direction: column;
+  border-radius: 2rem;
+  border: 1px solid #000000;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1.25rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.sub-icon {
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  text-transform: capitalize;
+}
+
+.mentor-bookmark {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: #000000;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+}
+
+
+
+@media (min-width: 1024px) {
+  .mentor-tile {
+    max-width: 410px;
+  }
+}

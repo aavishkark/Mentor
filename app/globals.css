@@ -120,3 +120,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+.home-section {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .home-section {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}
+

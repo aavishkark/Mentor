@@ -1,0 +1,27 @@
+.mentor-list {
+  border-radius: 2rem;
+  border: 1px solid #000000;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  padding-top: 1.75rem;
+  padding-bottom: 2.5rem;
+  background-color: #ffffff;
+}
+
+.sub-icon {
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  text-transform: capitalize;
+}
+
+@media (max-width: 1024px) {
+  .mentor-list {
+    width: 100%;
+  }
+}
