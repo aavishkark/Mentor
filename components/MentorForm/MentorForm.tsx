@@ -1,14 +1,13 @@
 "use client";
  
-import { z } from "zod"
-import React from 'react';
+import { z } from "zod";
+import './input.css';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -67,7 +66,7 @@ const MentorForm = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Companion Name</FormLabel>
+              <FormLabel>Mentor Name</FormLabel>
               <FormControl>
                 <Input 
                     placeholder="Enter the Companion Name" {...field}
@@ -115,7 +114,7 @@ const MentorForm = () => {
           name="topic"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>What Should the Companion Help With?</FormLabel>
+              <FormLabel>What Should the Mentor Help With?</FormLabel>
               <FormControl>
                 <Textarea
                     placeholder="Ex. Derivatives & Integrals"
@@ -182,7 +181,7 @@ const MentorForm = () => {
           name="duration"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Estimated Session duration in Minutes</FormLabel>
+              <FormLabel>How Long do you want the session to last</FormLabel>
               <FormControl>
                 <Input
                     type="number" 
@@ -194,7 +193,7 @@ const MentorForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full cursor-pointer">Build Your Companion</Button>
+        <Button type="submit" className="w-full cursor-pointer">reate Mentor</Button>
       </form>
     </Form>
   );

@@ -58,8 +58,8 @@ export const recentSessions = [
 export default function Home() {
   return (
     <main>
-      <h1 className='text-2xl underline'>Popular Companion</h1>
-      <section className='home-section'>
+      <h1 className='text-2xl'>Your Mentors</h1>
+      <section className='home-sec'>
         <MentorTile 
           id ="123"
           name = "Neura the Brainy Explorer"
@@ -85,7 +85,7 @@ export default function Home() {
           color = "#bde7ff"
         />
       </section>
-      <section className='home-section'>
+      <section className='home-sec'>
         <MentorList 
           title = "Recently Completed Sessions"
           companions= {recentSessions}

@@ -6,14 +6,14 @@ import './cta.css'
 const CTA = () => {
   return (
     <section className='cta-sec'>
-        <div className='cta-badge'>Start Leaning Your Way</div>
+        <div className='cta-icon'>Self Learning Redefined</div>
         <h2 className='text-3xl font-bold'>
-            Build and Personalize Leaning Companion
+            Create Your Own Mentors
         </h2>
         <p>
-            Pick a name, subject, voice, & personality —
-             and start learning through voice conversations that
-              feel natural and fun.
+            Choose a name, subject, voice, and personality —
+            then start learning through engaging,
+             natural voice conversations that make education fun.
         </p>
         <Image 
             src="/images/cta.svg"
@@ -21,7 +21,7 @@ const CTA = () => {
             width={362}
             height={232}
         />
-        <button className='btn-primary'>
+        <button className='cta-btn'>
             <Image 
                 src={"/icons/plus.svg"}
                 alt='"plus'
@@ -29,7 +29,7 @@ const CTA = () => {
                 height={12}
             />
             <Link href={'/companions/new'}>
-                <p>Build a New Companion</p>
+                <p>Create Companion</p>
             </Link>
         </button>
     </section>

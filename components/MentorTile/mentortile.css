@@ -36,6 +36,19 @@
   cursor: pointer;
 }
 
+.start-btn {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 
 @media (min-width: 1024px) {

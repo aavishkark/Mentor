@@ -1,0 +1,11 @@
+.input {
+  border: 1px solid #000000 !important;
+  background-color: #ffffff !important;
+  width: 100% !important;
+}
+
+.input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid #000000 !important;
+}

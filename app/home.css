@@ -1,4 +1,4 @@
-.home-section {
+.home-sec {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
@@ -7,7 +7,7 @@
 }
 
 @media (max-width: 1024px) {
-  .home-section {
+  .home-sec {
     flex-direction: column-reverse;
     align-items: center;
   }

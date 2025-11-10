@@ -37,7 +37,7 @@ const MentorList = ({
                 {companions?.map(({id, subject, topic, duration, name})=>(
                     <TableRow key={id}>
                         <TableCell>
-                            <Link href={`/companions/${id}`}>
+                            <Link href={`/mentors/${id}`}>
                                 <div className='flex items-center gap-2'>
                                     <div className='size-[72px] 
                                     flex items-center justify-center rounded-lg max-md:hidden'
