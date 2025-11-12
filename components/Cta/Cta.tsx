@@ -25,11 +25,11 @@ const CTA = () => {
             <Image 
                 src={"/icons/plus.svg"}
                 alt='"plus'
-                width={12}
-                height={12}
+                width={15}
+                height={15}
             />
             <Link href={'/companions/new'}>
-                <p>Create Companion</p>
+                <p>Mentor</p>
             </Link>
         </button>
     </section>
