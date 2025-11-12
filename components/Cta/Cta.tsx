@@ -28,7 +28,7 @@ const CTA = () => {
                 width={15}
                 height={15}
             />
-            <Link href={'/companions/new'}>
+            <Link href={'/mentors/newmentor'}>
                 <p>Mentor</p>
             </Link>
         </button>

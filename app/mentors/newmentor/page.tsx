@@ -1,11 +1,15 @@
 import MentorForm from '@/components/MentorForm/MentorForm';
 import './newmentor.css';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-const NewMentor = () => {
+const NewMentor = async() => {
+  const { userId } = await auth();
+  if(!userId) redirect('/login');
+
   return (
     <main className='newmentor'>
       <article className='newmentor_article'>
-        <h1>Mentor Form</h1>
         <MentorForm/>
       </article>
     </main>

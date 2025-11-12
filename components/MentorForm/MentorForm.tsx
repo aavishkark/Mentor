@@ -1,7 +1,7 @@
 "use client";
  
 import { z } from "zod";
-import './input.css';
+import './mentorform.css'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -21,7 +21,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
+import { createCompanion } from "@/lib/actions/companion.action";
+import { redirect } from "next/navigation";
 
 export const subjects = [
   "maths",
@@ -33,7 +35,7 @@ export const subjects = [
 ];
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: 'Companion is required'}),
+  name: z.string().min(1, { message: 'Mentor is required'}),
   subject: z.string().min(1, { message: 'Subject is required'}),
   topic: z.string().min(1, { message: 'Topic is required'}),
   voice: z.string().min(1, { message: 'Voice is required'}),
@@ -54,8 +56,15 @@ const MentorForm = () => {
     },
   })
  
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+const onSubmit = async(values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+
+    if(companion) {
+      redirect(`/mentors/${companion.id}`);
+    }else{
+      console.log('Failed to create mentor');
+      redirect('/');
+    }
   }
   
   return (
@@ -69,7 +78,7 @@ const MentorForm = () => {
               <FormLabel>Mentor Name</FormLabel>
               <FormControl>
                 <Input 
-                    placeholder="Enter the Companion Name" {...field}
+                    placeholder="Enter the Mentor Name" {...field}
                     className="input"    
                 />
               </FormControl>
@@ -193,7 +202,7 @@ const MentorForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full cursor-pointer">reate Mentor</Button>
+        <Button type="submit" className="w-full cursor-pointer">Create Mentor</Button>
       </form>
     </Form>
   );

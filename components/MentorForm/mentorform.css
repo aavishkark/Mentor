@@ -1,11 +1,112 @@
-.input {
-  border: 1px solid #000000 !important;
-  background-color: #ffffff !important;
-  width: 100% !important;
+form {
+  background: #f9fafb;
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
-.input:focus-visible {
+.input,
+.SelectTrigger,
+textarea.input {
+  width: 100% !important;
+  border: 1.5px solid #d1d5db !important;
+  background-color: #ffffff !important;
+  border-radius: 0.75rem !important;
+  padding: 0.85rem 1rem !important;
+  font-size: 1rem !important;
+  color: #111827 !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.input::placeholder,
+textarea.input::placeholder {
+  color: #9ca3af !important;
+}
+
+.input:hover,
+textarea.input:hover,
+.SelectTrigger:hover {
+  border-color: #2563eb !important;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
+  transform: translateY(-1px);
+}
+
+.input:focus-visible,
+textarea.input:focus-visible,
+.SelectTrigger:focus-visible {
   outline: none !important;
-  box-shadow: none !important;
-  border: 1px solid #000000 !important;
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25) !important;
+  background-color: #f3f4f6 !important;
+}
+
+.SelectContent {
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.SelectItem {
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.SelectItem:hover {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+button[type="submit"] {
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-radius: 0.8rem;
+  border: none;
+  background: linear-gradient(90deg, #4f46e5, #3b82f6, #06b6d4);
+  color: #ffffff;
+  padding: 1rem 1.25rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  letter-spacing: 0.4px;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(90deg, #007bff, #4f46e5);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+}
+
+label {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+p[data-slot="form-message"] {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+@media (max-width: 640px) {
+  form {
+    padding: 1.75rem;
+    border-radius: 1rem;
+  }
+
+  button[type="submit"] {
+    font-size: 0.95rem;
+    padding: 0.85rem;
+  }
+
+  .input,
+  .SelectTrigger,
+  textarea.input {
+    font-size: 0.95rem !important;
+  }
 }
