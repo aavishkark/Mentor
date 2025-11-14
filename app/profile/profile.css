@@ -1,0 +1,91 @@
+.profile {
+  width: 75%;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+}
+
+.profile-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-info h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.profile-info p {
+  color: #6b6b6b;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat-card {
+  border: 1px solid #000;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 130px;
+}
+
+.stat-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.accordion-title {
+  font-size: 1.7rem !important;
+  font-weight: bold !important;
+}
+
+@media (max-width: 768px) {
+  .profile {
+    width: 100%;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-user {
+    flex-direction: column;
+  }
+
+  .profile-stats {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .stat-card {
+    width: 100%;
+    text-align: center;
+  }
+}
