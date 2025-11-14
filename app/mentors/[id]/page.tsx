@@ -1,4 +1,4 @@
-
+import './mentorslot.css'
 import { getCompanion } from '@/lib/actions/companion.action';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
@@ -12,51 +12,44 @@ interface CompanionSessionPageProps {
 
 const MentorSlot = async ({params}: CompanionSessionPageProps) => {
   const {id} = await params;
-  const companion = await getCompanion(id);
-  const { name, subject, title, topic, duration } = companion;
+  const mentor = await getCompanion(id);
+  const { name, subject, topic, duration } = mentor;
   const user = await currentUser();
 
   if(!user) redirect('/sign-in');
   if(!name) redirect('/mentors');
   return (
     <main>
-      <article className='flex rounded-border justify-between p-6 max-md:flex-col'>
-        <div className='flex items-center gap-2'>
-          <div className='size-[72px] flex items-center 
-            justify-center rounded-lg max:md:hidden'
-            style={{backgroundColor: getSubjectColor(subject)}}
+      <article className="mentor-header">
+        <div className="mentor-info">
+          <div
+            className="mentor-avatar"
+            style={{ backgroundColor: getSubjectColor(subject) }}
           >
-            <Image src={`/icons/${subject}.svg`}
-              alt={subject}
-              width={35}
-              height={35}
-            />
+            <Image src={`/icons/${subject}.svg`} alt={subject} width={35} height={35} />
           </div>
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-center gap-2'>
-              <p className='font-bold text-2xl'>
-                {name}
-              </p>
-              <div className='subject-badge max-sm:hodden'>
-                {subject}
-              </div>
+
+          <div className="mentor-details">
+            <div className="mentor-name-row">
+              <p className="mentor-name">{name}</p>
+              <div className="subject-badge">{subject}</div>
             </div>
-            <p className='text-lg'>
-              {topic}
-            </p>
+
+            <p className="mentor-topic">{topic}</p>
           </div>
         </div>
-        <div className='items-start text-2xl max-md:hidden'>
-          {duration} minutes
-        </div>
+
+        <div className="duration-display">{duration} minutes</div>
       </article>
-      <MentorComponent 
-        {...companion}
-        compaanionId={id}
+
+      <MentorComponent
+        {...mentor}
+        companionId={id}
         userName={user.firstName!}
         userImage={user.imageUrl!}
       />
     </main>
+
   );
 };
 

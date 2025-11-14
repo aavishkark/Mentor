@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { LottieRefCurrentProps } from 'lottie-react';
 import soundwaves from '@/constants/soundwaves.json';
 import Lottie from 'lottie-react';
+import { addToSessionHistory } from '@/lib/actions/companion.action';
 
 enum CallStatus {
     INACTIVE ="INACTIVE",
@@ -33,6 +34,7 @@ interface SavedMessage {
 }
 
 const MentorComponent = ({
+    companionId,
     subject,
     topic,
     name,
@@ -60,7 +62,7 @@ const MentorComponent = ({
 
     useEffect(()=>{
         const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
-        const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+        const onCallEnd = () =>{ setCallStatus(CallStatus.FINISHED); addToSessionHistory(companionId)  };
         const onMessage = (message:Message) => {
             if(message.type === 'transcript' && message.transcriptType === 'final'){
                 const newMessage = {role: message.role, content:message.transcript}
@@ -113,7 +115,7 @@ const MentorComponent = ({
     const handleDisconnect = () => {
         setCallStatus(CallStatus.FINISHED)
         vapi.stop()
-    }
+    }    
 
   return (
         <section className="outersection flex flex-col h-[70vh]">
@@ -154,7 +156,7 @@ const MentorComponent = ({
                             {isMuted ? 'Turn on microphone' : 'Turn off microphone'}
                         </p>
                     </button>
-                    <button className={cn('rounded-lg py-2 cursor-pointer transition-colors w-full text-white', callStatus ===CallStatus.ACTIVE ? 'bg-red-700' : 'bg-primary', callStatus === CallStatus.CONNECTING && 'animate-pulse')} onClick={callStatus === CallStatus.ACTIVE ? handleDisconnect : handleCall}>
+                    <button className={cn('start-btn rounded-lg py-2 cursor-pointer transition-colors w-full text-white', callStatus === CallStatus.ACTIVE ? 'bg-red-700' : 'bg-primary', callStatus === CallStatus.CONNECTING && 'animate-pulse')} onClick={callStatus === CallStatus.ACTIVE ? handleDisconnect : handleCall}>
                         {callStatus === CallStatus.ACTIVE
                         ? "End Session"
                         : callStatus === CallStatus.CONNECTING

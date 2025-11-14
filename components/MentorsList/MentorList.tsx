@@ -24,7 +24,7 @@ const MentorList = ({
 }: CompanionListProps) => {
   return (
     <article className={cn('mentor-list', classNames)}>
-        <h2 className="font-bold text-3xl">Recent Sessions</h2>
+        <h2 className="font-bold text-3xl">{title}</h2>
         <Table>
             <TableHeader>
                 <TableRow>
@@ -34,8 +34,8 @@ const MentorList = ({
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {companions?.map(({id, subject, topic, duration, name})=>(
-                    <TableRow key={id}>
+                {companions?.map(({id, subject, topic, duration, name}, _index)=>(
+                    <TableRow key={_index}>
                         <TableCell>
                             <Link href={`/mentors/${id}`}>
                                 <div className='flex items-center gap-2'>
