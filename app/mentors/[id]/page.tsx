@@ -16,7 +16,7 @@ const MentorSlot = async ({params}: CompanionSessionPageProps) => {
   const { name, subject, topic, duration } = mentor;
   const user = await currentUser();
 
-  if(!user) redirect('/sign-in');
+  if(!user) redirect('/login');
   if(!name) redirect('/mentors');
   return (
     <main>

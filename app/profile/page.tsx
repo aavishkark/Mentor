@@ -14,7 +14,7 @@ import MentorList from "@/components/MentorsList/MentorList";
 
 const ProfilePage = async() => {
   const user = await currentUser();
-  if(!user) redirect('/sign-in');
+  if(!user) redirect('/login');
 
   const companions = await getUserCompanions(user.id);
   const sessionHistory = await getUserSessions(user.id);
