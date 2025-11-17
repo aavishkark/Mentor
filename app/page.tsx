@@ -7,19 +7,9 @@ import './home.css';
 import { getAllCompanions, getRecentSessions } from '@/lib/actions/companion.action';
 import { getSubjectColor } from '@/lib/utils';
 import { currentUser } from '@clerk/nextjs/server';
-import { getUserCompanions, getUserSessions } from '@/lib/actions/companion.action';
 
 const Home = async() => {
-  
   const user = await currentUser();
-
-  // if(user){
-  //     const companions = await getUserCompanions(user.id);
-  //     const sessionHistory = await getUserSessions(user.id);
-  // }
-  // else{
-    
-  // }
   const mentors = await getAllCompanions( { limit:3 } );
   const rescentSessionsMentors = await getRecentSessions(10);
   

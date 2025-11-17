@@ -5,14 +5,12 @@ main {
   padding-top: 2rem;
 }
 
-/* Top Header Card */
 .mentor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
   border-radius: 1.25rem;
-  background: #ffffff;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.2s ease;
 }
@@ -21,7 +19,6 @@ main {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.09);
 }
 
-/* Left side (icon + details) */
 .mentor-info {
   display: flex;
   align-items: center;
@@ -52,7 +49,6 @@ main {
 .mentor-name {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #0f172a;
 }
 
 .subject-badge {
@@ -67,13 +63,11 @@ main {
 
 .mentor-topic {
   font-size: 1.125rem;
-  color: #334155;
 }
 
 .duration-display {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #334155;
 }
 
 @media (max-width: 768px) {

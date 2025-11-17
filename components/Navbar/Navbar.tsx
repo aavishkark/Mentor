@@ -1,11 +1,12 @@
-import React from 'react';
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import './navbar.css';
 import NavItems from '../NavItems/NavItems';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
-
+import { useTheme } from '@/Context/ThemeContext';
 const Navbar = () => {
+  const { toggleTheme, theme } = useTheme();
   return (
     <nav className='navbar'>
         <Link href='/'>
@@ -20,9 +21,10 @@ const Navbar = () => {
         </Link>
         <div className='navitems'>
               <NavItems/>
+              <button className='theme-btn' onClick={toggleTheme}>{ theme == "dark" ? "Light" : 'Dark' }</button>
               <SignedOut>
                 <SignInButton>
-                    <button className='btn-signin'>Sign In</button>
+                    <button className='btn-signin'></button>
                 </SignInButton>
               </SignedOut>
               <SignedIn>

@@ -50,6 +50,17 @@
   box-shadow: 0 10px 24px rgba(0, 102, 255, 0.35);
 }
 
+.theme-btn {
+  background: none;
+  border: 2px solid var(--foreground);
+  color: var(--foreground);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
 @media (max-width: 1024px) {
   .navbar {
     padding: 1rem 2rem;
