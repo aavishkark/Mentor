@@ -4,9 +4,19 @@ import Image from 'next/image';
 import './navbar.css';
 import NavItems from '../NavItems/NavItems';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
-import { useTheme } from '@/Context/ThemeContext';
+import { useState } from 'react';
 const Navbar = () => {
-  const { toggleTheme, theme } = useTheme();
+  const [themeState, setThemeState] = useState('light');
+  const toggleTheme = () =>{
+    if(document.body.classList.contains('dark')){
+        document.body.classList.remove('dark');
+        setThemeState('light');
+    }
+    else{
+        document.body.classList.add('dark');
+        setThemeState('dark');
+    }
+  }
   return (
     <nav className='navbar'>
         <Link href='/'>
@@ -21,10 +31,10 @@ const Navbar = () => {
         </Link>
         <div className='navitems'>
               <NavItems/>
-              <button className='theme-btn' onClick={toggleTheme}>{ theme == "dark" ? "Light" : 'Dark' }</button>
+              <button className='theme-btn' onClick={toggleTheme}>{ themeState == "dark" ? "Light" : 'Dark' }</button>
               <SignedOut>
                 <SignInButton>
-                    <button className='btn-signin'></button>
+                    <button className='btn-signin'>Sign In</button>
                 </SignInButton>
               </SignedOut>
               <SignedIn>

@@ -16,7 +16,6 @@ const NewMentor = async() => {
     <main className='newmentor'>
       {canCreateCompanion ? (
         <article className='w-full gap-4 flex flex-col'>
-          <h1>Mentor Form</h1>
           <MentorForm />
         </article>
       ):(

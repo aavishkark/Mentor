@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { subjects } from '../MentorForm/MentorForm';
 import { useState, useEffect } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { formUrlQuery, removeKeysFromUrlQuery } from '@jsmastery/utils';
 
 

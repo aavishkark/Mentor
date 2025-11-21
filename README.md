@@ -1,4 +1,4 @@
-## Mentor AI
+## Mentor
 
 An AI voice-first mentoring platform built with Next.js, Clerk, Supabase, and Vapi. Learners can browse curated mentors, spin up their own subject matter expert with custom voices/styles, and hold real-time audio tutoring sessions that automatically log transcripts and session history.
 
