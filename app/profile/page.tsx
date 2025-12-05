@@ -1,5 +1,6 @@
 
 import './profile.css';
+import '../../components/AnalyticsDashboard/AnalyticsDashboard.css';
 import {
   Accordion,
   AccordionContent,
@@ -8,16 +9,19 @@ import {
 } from "@/components/ui/accordion";
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { getUserCompanions, getUserSessions } from '@/lib/actions/companion.action';
+import { getUserCompanions, getUserSessions, getUserAnalytics } from '@/lib/actions/companion.action';
 import Image from 'next/image';
 import MentorList from "@/components/MentorsList/MentorList";
+import AnalyticsDashboard from '@/components/AnalyticsDashboard/AnalyticsDashboard';
 
-const ProfilePage = async() => {
+const ProfilePage = async () => {
   const user = await currentUser();
-  if(!user) redirect('/login');
+  if (!user) redirect('/login');
 
   const companions = await getUserCompanions(user.id);
   const sessionHistory = await getUserSessions(user.id);
+  const analyticsData = await getUserAnalytics(user.id);
+
   return (
     <main className="profile">
       <section className="profile-header">
@@ -48,7 +52,16 @@ const ProfilePage = async() => {
         </div>
       </section>
 
-      <Accordion type="multiple">
+      <Accordion type="multiple" defaultValue={["analytics"]}>
+        <AccordionItem value="analytics">
+          <AccordionTrigger className="accordion-title">
+            Learning Analytics
+          </AccordionTrigger>
+          <AccordionContent>
+            <AnalyticsDashboard data={analyticsData} />
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="recent">
           <AccordionTrigger className="accordion-title">
             My Sessions ({sessionHistory.length})
