@@ -1,0 +1,36 @@
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #d8aa84;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.export-btn:hover:not(:disabled) {
+    background-color: #c69a74;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(216, 170, 132, 0.3);
+}
+
+.export-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.export-btn:disabled {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .export-btn {
+        padding: 0.5rem;
+    }
+}

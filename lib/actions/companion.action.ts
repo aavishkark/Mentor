@@ -74,14 +74,31 @@ export const getCompanion = async (id: string) => {
     return data[0];
 }
 
-export const addToSessionHistory = async (companionId: string) => {
+interface TranscriptMessage {
+    role: string;
+    content: string;
+    timestamp?: string;
+}
+
+export const addToSessionHistory = async (companionId: string, transcript?: TranscriptMessage[]) => {
     const { userId } = await auth();
     const supabase = createSupabaseClient();
+
+    const sessionData: any = {
+        companion_id: companionId,
+        user_id: userId
+    };
+
+    if (transcript && transcript.length > 0) {
+        const timestampedTranscript = transcript.map(msg => ({
+            ...msg,
+            timestamp: msg.timestamp || new Date().toISOString()
+        }));
+        sessionData.transcript = timestampedTranscript;
+    }
+
     const { data, error } = await supabase.from('session_history')
-        .insert({
-            companion_id: companionId,
-            user_id: userId
-        })
+        .insert(sessionData);
 
     if (error) throw new Error(error.message);
 
@@ -105,14 +122,32 @@ export const getUserSessions = async (userId: string, limit = 10) => {
     const supabase = createSupabaseClient();
     const { data, error } = await supabase
         .from('session_history')
-        .select(`companions:companion_id(*)`)
+        .select(`
+            id,
+            created_at,
+            transcript,
+            companions:companion_id(
+                id,
+                name,
+                subject,
+                topic,
+                duration,
+                voice,
+                style
+            )
+        `)
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
         .limit(limit)
 
     if (error) throw new Error(error.message);
 
-    return data.map(({ companions }) => companions)
+    return data.map((session: any) => ({
+        ...session.companions,
+        sessionId: session.id,
+        sessionDate: session.created_at,
+        transcript: session.transcript || []
+    }));
 }
 
 export const getUserCompanions = async (userId: string, limit = 10) => {

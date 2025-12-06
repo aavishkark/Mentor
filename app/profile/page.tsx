@@ -67,7 +67,7 @@ const ProfilePage = async () => {
             My Sessions ({sessionHistory.length})
           </AccordionTrigger>
           <AccordionContent>
-            <MentorList title="Recent Sessions" companions={sessionHistory} />
+            <MentorList title="Recent Sessions" companions={sessionHistory} showExport={true} />
           </AccordionContent>
         </AccordionItem>
 

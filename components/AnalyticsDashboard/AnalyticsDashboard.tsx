@@ -28,29 +28,21 @@ const AnalyticsDashboard = ({ data }: AnalyticsDashboardProps) => {
 
     return (
         <div className="analytics-dashboard">
-            <div className="analytics-header">
-                <h2>📊 Learning Analytics</h2>
-                <p className="analytics-subtitle">Track your progress and insights</p>
-            </div>
 
-            {/* Summary Stats */}
             <div className="analytics-stats">
                 <div className="analytics-stat-card">
-                    <div className="stat-icon">⏱️</div>
                     <div className="stat-content">
                         <p className="stat-value">{formatHours(totalTime)}</p>
                         <p className="stat-label">Total Learning Time</p>
                     </div>
                 </div>
                 <div className="analytics-stat-card">
-                    <div className="stat-icon">📚</div>
                     <div className="stat-content">
                         <p className="stat-value">{totalSessions}</p>
                         <p className="stat-label">Total Sessions</p>
                     </div>
                 </div>
                 <div className="analytics-stat-card">
-                    <div className="stat-icon">⚡</div>
                     <div className="stat-content">
                         <p className="stat-value">{formatHours(avgSessionLength)}</p>
                         <p className="stat-label">Avg Session Length</p>
@@ -61,7 +53,7 @@ const AnalyticsDashboard = ({ data }: AnalyticsDashboardProps) => {
             <div className="analytics-charts">
                 {subjectData.length > 0 && (
                     <div className="chart-container">
-                        <h3>📖 Learning Time by Subject</h3>
+                        <h3>Learning Time by Subject</h3>
                         <ResponsiveContainer width="100%" height={300}>
                             <PieChart>
                                 <Pie
@@ -85,7 +77,7 @@ const AnalyticsDashboard = ({ data }: AnalyticsDashboardProps) => {
                 )}
 
                 <div className="chart-container">
-                    <h3>📅 Weekly Activity</h3>
+                    <h3>Weekly Activity</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={weeklyActivity}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -93,14 +85,14 @@ const AnalyticsDashboard = ({ data }: AnalyticsDashboardProps) => {
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="sessions" fill="#8884d8" name="Sessions" />
+                            <Bar dataKey="sessions" fill="#d8aa84ff" name="Sessions" />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
 
                 {trendData.length > 1 && (
                     <div className="chart-container full-width">
-                        <h3>📈 Session Completion Trend</h3>
+                        <h3>Session Completion Trend</h3>
                         <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={trendData}>
                                 <CartesianGrid strokeDasharray="3 3" />
@@ -121,7 +113,7 @@ const AnalyticsDashboard = ({ data }: AnalyticsDashboardProps) => {
 
                 {subjectData.length > 0 && (
                     <div className="chart-container full-width">
-                        <h3>🎯 Most Active Subjects</h3>
+                        <h3>Most Active Subjects</h3>
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={subjectData.slice(0, 5)} layout="vertical">
                                 <CartesianGrid strokeDasharray="3 3" />
