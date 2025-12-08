@@ -268,3 +268,118 @@ export const getUserAnalytics = async (userId: string) => {
         weeklyActivity
     };
 }
+
+export const getMentorRecommendations = async (limit = 6) => {
+    const { userId } = await auth();
+    const supabase = createSupabaseClient();
+
+    if (!userId) {
+        const { data: trending, error: trendingError } = await supabase
+            .from('companions')
+            .select()
+            .order('created_at', { ascending: false })
+            .limit(limit);
+
+        if (trendingError) throw new Error(trendingError.message);
+        return trending || [];
+    }
+
+    const { data: sessions, error: sessionsError } = await supabase
+        .from('session_history')
+        .select(`
+            companion_id,
+            created_at,
+            companions:companion_id(
+                id,
+                subject,
+                topic,
+                duration
+            )
+        `)
+        .eq('user_id', userId);
+
+    if (sessionsError) throw new Error(sessionsError.message);
+
+    if (!sessions || sessions.length === 0) {
+        const { data: popular, error: popularError } = await supabase
+            .from('companions')
+            .select()
+            .order('created_at', { ascending: false })
+            .limit(limit);
+
+        if (popularError) throw new Error(popularError.message);
+        return popular || [];
+    }
+
+    const subjectScores = new Map<string, number>();
+    const usedMentorIds = new Set<string>();
+    const now = new Date();
+    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    sessions.forEach((session: any) => {
+        const companion = session.companions;
+        if (!companion) return;
+
+        usedMentorIds.add(companion.id);
+        const subject = companion.subject || 'General';
+        const duration = companion.duration || 15;
+        const sessionDate = new Date(session.created_at);
+
+        let score = duration;
+
+        if (sessionDate >= sevenDaysAgo) {
+            const daysAgo = Math.floor((now.getTime() - sessionDate.getTime()) / (24 * 60 * 60 * 1000));
+            score += Math.max(0, 20 - (daysAgo * 3));
+        }
+
+        subjectScores.set(subject, (subjectScores.get(subject) || 0) + score);
+    });
+
+    const topSubjects = Array.from(subjectScores.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([subject]) => subject);
+
+    let query = supabase.from('companions').select();
+
+    if (usedMentorIds.size > 0) {
+        query = query.not('id', 'in', `(${Array.from(usedMentorIds).join(',')})`);
+    }
+
+    const { data: allMentors, error: mentorsError } = await query.limit(100);
+
+    if (mentorsError) throw new Error(mentorsError.message);
+    if (!allMentors || allMentors.length === 0) {
+        const { data: fallback } = await supabase
+            .from('companions')
+            .select()
+            .limit(limit);
+        return fallback || [];
+    }
+
+    const scoredMentors = allMentors.map((mentor: any) => {
+        let score = 0;
+        const mentorSubject = mentor.subject || 'General';
+
+        const subjectIndex = topSubjects.indexOf(mentorSubject);
+        if (subjectIndex !== -1) {
+            score += 50 - (subjectIndex * 15);
+        } else {
+            score += 15;
+        }
+
+        const mentorAge = now.getTime() - new Date(mentor.created_at).getTime();
+        const daysOld = mentorAge / (24 * 60 * 60 * 1000);
+        if (daysOld < 30) {
+            score += Math.max(0, 15 - Math.floor(daysOld / 2));
+        }
+
+        return { ...mentor, recommendationScore: score };
+    });
+
+    const recommendations = scoredMentors
+        .sort((a, b) => b.recommendationScore - a.recommendationScore)
+        .slice(0, limit);
+
+    return recommendations;
+}

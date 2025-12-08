@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/accordion";
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { getUserCompanions, getUserSessions, getUserAnalytics } from '@/lib/actions/companion.action';
+import { getUserCompanions, getUserSessions, getUserAnalytics, getMentorRecommendations } from '@/lib/actions/companion.action';
 import Image from 'next/image';
 import MentorList from "@/components/MentorsList/MentorList";
 import AnalyticsDashboard from '@/components/AnalyticsDashboard/AnalyticsDashboard';
+import RecommendedMentors from '@/components/RecommendedMentors/RecommendedMentors';
 
 const ProfilePage = async () => {
   const user = await currentUser();
@@ -21,6 +22,7 @@ const ProfilePage = async () => {
   const companions = await getUserCompanions(user.id);
   const sessionHistory = await getUserSessions(user.id);
   const analyticsData = await getUserAnalytics(user.id);
+  const recommendations = await getMentorRecommendations(6);
 
   return (
     <main className="profile">
@@ -51,6 +53,14 @@ const ProfilePage = async () => {
           </div>
         </div>
       </section>
+
+      {recommendations.length > 0 && (
+        <RecommendedMentors
+          companions={recommendations}
+          title="Explore New Mentors"
+          showBadge={true}
+        />
+      )}
 
       <Accordion type="multiple" defaultValue={["analytics"]}>
         <AccordionItem value="analytics">
