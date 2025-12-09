@@ -1,13 +1,14 @@
 'use client';
 
 import Link from "next/link";
-import {usePathname} from "next/navigation";
-import {cn} from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 import './navitems.css'
 
 const navItems = [
-    { label:'Home', href: '/' },
+    { label: 'Home', href: '/' },
     { label: 'Mentors', href: '/mentors' },
+    { label: 'Notes', href: '/notes' },
     { label: 'Profile', href: '/profile' },
 ]
 

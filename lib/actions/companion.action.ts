@@ -383,3 +383,239 @@ export const getMentorRecommendations = async (limit = 6) => {
 
     return recommendations;
 }
+
+interface CreateNote {
+    sessionId?: string;
+    companionId?: string;
+    title: string;
+    content: string;
+    tags?: string[];
+}
+
+interface UpdateNote {
+    id: string;
+    title?: string;
+    content?: string;
+    tags?: string[];
+    aiSummary?: string;
+}
+
+export const createNote = async (noteData: CreateNote) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('notes')
+        .insert({
+            user_id: userId,
+            session_id: noteData.sessionId || null,
+            companion_id: noteData.companionId || null,
+            title: noteData.title,
+            content: noteData.content,
+            tags: noteData.tags || []
+        })
+        .select()
+        .single();
+
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export const updateNote = async (noteData: UpdateNote) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const updatePayload: any = {};
+    if (noteData.title !== undefined) updatePayload.title = noteData.title;
+    if (noteData.content !== undefined) updatePayload.content = noteData.content;
+    if (noteData.tags !== undefined) updatePayload.tags = noteData.tags;
+    if (noteData.aiSummary !== undefined) updatePayload.ai_summary = noteData.aiSummary;
+
+    const { data, error } = await supabase
+        .from('notes')
+        .update(updatePayload)
+        .eq('id', noteData.id)
+        .eq('user_id', userId)
+        .select()
+        .single();
+
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export const deleteNote = async (noteId: string) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { error } = await supabase
+        .from('notes')
+        .delete()
+        .eq('id', noteId)
+        .eq('user_id', userId);
+
+    if (error) throw new Error(error.message);
+    return { success: true };
+}
+
+export const getNote = async (noteId: string) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('notes')
+        .select(`
+            *,
+            session:session_id(*),
+            companion:companion_id(id, name, subject, topic)
+        `)
+        .eq('id', noteId)
+        .eq('user_id', userId)
+        .single();
+
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export const getNotesBySession = async (sessionId: string) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .eq('session_id', sessionId)
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+    if (error) throw new Error(error.message);
+    return data || [];
+}
+
+interface GetUserNotesParams {
+    limit?: number;
+    page?: number;
+    companionId?: string;
+    tags?: string[];
+}
+
+export const getUserNotes = async ({ limit = 20, page = 1, companionId, tags }: GetUserNotesParams = {}) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    let query = supabase
+        .from('notes')
+        .select(`
+            *,
+            companion:companion_id(id, name, subject, topic)
+        `, { count: 'exact' })
+        .eq('user_id', userId);
+
+    if (companionId) {
+        query = query.eq('companion_id', companionId);
+    }
+
+    if (tags && tags.length > 0) {
+        query = query.overlaps('tags', tags);
+    }
+
+    query = query
+        .order('created_at', { ascending: false })
+        .range((page - 1) * limit, page * limit - 1);
+
+    const { data, error, count } = await query;
+
+    if (error) throw new Error(error.message);
+
+    return {
+        notes: data || [],
+        total: count || 0,
+        page,
+        totalPages: Math.ceil((count || 0) / limit)
+    };
+}
+
+export const searchNotes = async (searchQuery: string, limit = 20) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('notes')
+        .select(`
+            *,
+            companion:companion_id(id, name, subject, topic)
+        `)
+        .eq('user_id', userId)
+        .or(`title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`)
+        .order('created_at', { ascending: false })
+        .limit(limit);
+
+    if (error) throw new Error(error.message);
+    return data || [];
+}
+
+export const generateAISummary = async (noteId: string) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data: note, error: noteError } = await supabase
+        .from('notes')
+        .select('content, title')
+        .eq('id', noteId)
+        .eq('user_id', userId)
+        .single();
+
+    if (noteError) throw new Error(noteError.message);
+
+    const words = note.content.split(' ');
+    const summary = words.length > 50
+        ? `Summary of "${note.title}": ${words.slice(0, 50).join(' ')}...`
+        : `Summary of "${note.title}": ${note.content}`;
+
+    const { data, error } = await supabase
+        .from('notes')
+        .update({ ai_summary: summary })
+        .eq('id', noteId)
+        .eq('user_id', userId)
+        .select()
+        .single();
+
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export const getAllTags = async () => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('notes')
+        .select('tags')
+        .eq('user_id', userId);
+
+    if (error) throw new Error(error.message);
+
+    const allTags = new Set<string>();
+    data?.forEach(note => {
+        note.tags?.forEach((tag: string) => allTags.add(tag));
+    });
+
+    return Array.from(allTags).sort();
+}
