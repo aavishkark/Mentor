@@ -102,11 +102,14 @@ const NotesPanel = ({ sessionId, companionId, companionName }: NotesPanelProps) 
     return (
         <div className="notes-panel">
             <div className="notes-panel-header">
-                <h3>Session Notes</h3>
-                {companionName && <p className="session-mentor">{companionName}</p>}
-                {!isCreating && (
+                <div className="header-info">
+                    <h3>Session Notes</h3>
+                    {companionName && <p className="session-mentor">{companionName}</p>}
+                </div>
+                {!isCreating && notes.length > 0 && (
                     <button onClick={handleNewNote} className="new-note-btn">
-                        + New Note
+                        <span className="btn-icon">+</span>
+                        New Note
                     </button>
                 )}
             </div>
@@ -151,9 +154,12 @@ const NotesPanel = ({ sessionId, companionId, companionName }: NotesPanelProps) 
                 <div className="notes-list">
                     {notes.length === 0 ? (
                         <div className="empty-notes">
-                            <p>No notes yet for this session.</p>
+                            <div className="empty-icon">📝</div>
+                            <h4>No notes yet</h4>
+                            <p>Capture important insights during your session</p>
                             <button onClick={handleNewNote} className="create-first-note">
-                                Create your first note
+                                <span className="btn-icon">+</span>
+                                Create Your First Note
                             </button>
                         </div>
                     ) : (

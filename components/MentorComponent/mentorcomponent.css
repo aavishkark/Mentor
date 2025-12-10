@@ -1,51 +1,94 @@
+:root {
+  --mentor-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(249, 250, 251, 0.98));
+  --mentor-card-bg: rgba(255, 255, 255, 0.6);
+  --mentor-card-bg-hover: rgba(255, 255, 255, 0.75);
+  --mentor-border: rgba(79, 70, 229, 0.08);
+  --mentor-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --mentor-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --mentor-transcript-bg: rgba(248, 250, 252, 0.5);
+  --mentor-transcript-border: rgba(79, 70, 229, 0.06);
+  --mentor-message-bg: white;
+  --mentor-message-border: rgba(79, 70, 229, 0.08);
+  --mentor-text-primary: #1e293b;
+}
+
+.dark {
+  --mentor-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
+  --mentor-card-bg: rgba(30, 41, 59, 0.6);
+  --mentor-card-bg-hover: rgba(30, 41, 59, 0.75);
+  --mentor-border: rgba(129, 140, 248, 0.12);
+  --mentor-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+  --mentor-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --mentor-transcript-bg: rgba(15, 23, 42, 0.5);
+  --mentor-transcript-border: rgba(129, 140, 248, 0.1);
+  --mentor-message-bg: rgba(30, 41, 59, 0.9);
+  --mentor-message-border: rgba(129, 140, 248, 0.15);
+  --mentor-text-primary: #f1f5f9;
+}
+
 .outersection {
   display: flex;
   flex-direction: column;
-  height: 75vh;
-  border-radius: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
+  height: calc(100vh - 280px);
+  min-height: 600px;
+  border-radius: 1.25rem;
+  background: var(--mentor-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--mentor-border);
+  box-shadow: var(--mentor-shadow);
+  padding: 1.75rem;
   overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.outersection:hover {
+  box-shadow: var(--mentor-shadow-hover);
+  border-color: rgba(79, 70, 229, 0.12);
 }
 
 .start-btn {
-  background: linear-gradient(90deg, #4f46e5, #3b82f6, #06b6d4);
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #06b6d4 100%);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s ease;
 }
 
-.start-btn :hover {
-  background: linear-gradient(90deg, #007bff, #4f46e5);
+.start-btn:hover {
+  background: linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0891b2 100%);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  transform: translateY(-2px);
 }
 
 .mentor-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   text-align: center;
   flex: 1;
+  padding: 1.5rem 0;
 }
 
 .mentor-avatar {
   position: relative;
-  width: 180px;
-  height: 180px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.3), 0 8px 24px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mentor-avatar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  transform: scale(1.06);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.16);
 }
 
 .mentor-lottie {
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
 }
 
 .user-section {
@@ -53,57 +96,97 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  gap: 1.5rem;
-  border-radius: 1.25rem;
-  padding: 2rem;
+  gap: 1.25rem;
+  background: var(--mentor-card-bg);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 1.75rem;
   flex: 1;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--mentor-border);
+  transition: all 0.3s ease;
+}
+
+.user-section:hover {
+  background: var(--mentor-card-bg-hover);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
 .user-avatar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.625rem;
+}
+
+.user-avatar img {
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.user-avatar img:hover {
+  transform: scale(1.05);
 }
 
 .btn-mic {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  background: #f1f5f9;
-  color: black;
-  border-radius: 1rem;
+  gap: 0.625rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #1e293b;
+  border: 1px solid rgba(79, 70, 229, 0.1);
+  border-radius: 0.875rem;
   padding: 0.75rem 1.25rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .btn-mic:hover:enabled {
-  background: #c4cad1;
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  border-color: rgba(79, 70, 229, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 button.bg-primary {
-  background: linear-gradient(90deg, #4f46e5, #3b82f6, #06b6d4);
-  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #06b6d4 100%);
+  border-radius: 0.875rem;
   font-weight: 600;
   font-size: 1rem;
-  padding: 0.75rem;
+  padding: 0.875rem;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button.bg-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
 }
 
 button.bg-red-700 {
-  background: linear-gradient(90deg, #007bff, #4f46e5);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+button.bg-red-700:hover {
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
 }
 
 .transcript {
   position: relative;
   flex: 1;
-  margin-top: 2rem;
-  border-radius: 1rem;
-  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border-radius: 0.875rem;
+  padding: 1.25rem;
   overflow: hidden;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+  background: var(--mentor-transcript-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--mentor-transcript-border);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .transcript-message {
@@ -111,17 +194,45 @@ button.bg-red-700 {
   height: 100%;
   display: flex;
   flex-direction: column-reverse;
-  gap: 1rem;
-  font-size: 1rem;
+  gap: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.6;
+  padding-right: 0.5rem;
+}
+
+.transcript-message::-webkit-scrollbar {
+  width: 6px;
+}
+
+.transcript-message::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 3px;
+}
+
+.transcript-message::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.2);
+  border-radius: 3px;
+}
+
+.transcript-message::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.3);
 }
 
 .transcript-message p {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.625rem;
   width: fit-content;
   max-width: 85%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background: var(--mentor-message-bg);
+  color: var(--mentor-text-primary);
+  border: 1px solid var(--mentor-message-border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.transcript-message p:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 
 .transcript-fade {
@@ -129,18 +240,32 @@ button.bg-red-700 {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 50px;
+  background: linear-gradient(to top, rgba(248, 250, 252, 0.8), transparent);
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .outersection {
+    height: auto;
+    min-height: 500px;
+  }
 }
 
 @media (max-width: 768px) {
   section.flex.gap-8 {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .mentor-avatar {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
+  }
+
+  .mentor-lottie {
+    width: 110px;
+    height: 110px;
   }
 
   .user-section {
@@ -148,6 +273,10 @@ button.bg-red-700 {
   }
 
   .transcript-message p {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  .outersection {
+    padding: 1.25rem;
   }
 }

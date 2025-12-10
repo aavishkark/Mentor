@@ -54,6 +54,7 @@ const Home = async () => {
             title="Previously Completed Sessions"
             companions={rescentSessionsMentors}
             classNames="w-f2/3 max-lg:w-full"
+            showExport={true}
           />
         )}
         {mentors && mentors.length > 0 && <Cta />}

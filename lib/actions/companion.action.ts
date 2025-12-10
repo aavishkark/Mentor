@@ -80,6 +80,51 @@ interface TranscriptMessage {
     timestamp?: string;
 }
 
+export const createSession = async (companionId: string) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const { data, error } = await supabase
+        .from('session_history')
+        .insert({
+            companion_id: companionId,
+            user_id: userId,
+            transcript: []
+        })
+        .select()
+        .single();
+
+    if (error) throw new Error(error.message);
+
+    return data;
+}
+
+export const updateSessionTranscript = async (sessionId: string, transcript?: TranscriptMessage[]) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
+    const supabase = createSupabaseClient();
+
+    const timestampedTranscript = transcript?.map(msg => ({
+        ...msg,
+        timestamp: msg.timestamp || new Date().toISOString()
+    }));
+
+    const { data, error } = await supabase
+        .from('session_history')
+        .update({ transcript: timestampedTranscript })
+        .eq('id', sessionId)
+        .eq('user_id', userId)
+        .select()
+        .single();
+
+    if (error) throw new Error(error.message);
+
+    return data;
+}
+
 export const addToSessionHistory = async (companionId: string, transcript?: TranscriptMessage[]) => {
     const { userId } = await auth();
     const supabase = createSupabaseClient();
@@ -106,16 +151,30 @@ export const addToSessionHistory = async (companionId: string, transcript?: Tran
 }
 
 export const getRecentSessions = async (limit = 10) => {
+    const { userId } = await auth();
+    if (!userId) return [];
+
     const supabase = createSupabaseClient();
     const { data, error } = await supabase
         .from('session_history')
-        .select(`companions:companion_id(*)`)
+        .select(`
+            id,
+            created_at,
+            transcript,
+            companions:companion_id(*)
+        `)
+        .eq('user_id', userId)
         .order('created_at', { ascending: false })
         .limit(limit)
 
     if (error) throw new Error(error.message);
 
-    return data.map(({ companions }) => companions)
+    return data.map(({ id, created_at, transcript, companions }) => ({
+        ...companions,
+        sessionId: id,
+        sessionDate: created_at,
+        transcript: transcript || []
+    }))
 }
 
 export const getUserSessions = async (userId: string, limit = 10) => {

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { LottieRefCurrentProps } from 'lottie-react';
 import soundwaves from '@/constants/soundwaves.json';
 import Lottie from 'lottie-react';
-import { addToSessionHistory } from '@/lib/actions/companion.action';
+import { updateSessionTranscript, createSession } from '@/lib/actions/companion.action';
 
 enum CallStatus {
     INACTIVE = "INACTIVE",
@@ -19,6 +19,7 @@ enum CallStatus {
 
 interface MentorComponentProps {
     companionId: string;
+    sessionId?: string;
     subject: string;
     topic: string;
     name: string;
@@ -26,6 +27,7 @@ interface MentorComponentProps {
     userImage: string;
     voice: string;
     style: string;
+    onSessionCreate?: (sessionId: string) => void;
 }
 
 interface SavedMessage {
@@ -35,19 +37,22 @@ interface SavedMessage {
 
 const MentorComponent = ({
     companionId,
+    sessionId,
     subject,
     topic,
     name,
     userName,
     userImage,
     style,
-    voice }: MentorComponentProps) => {
+    voice,
+    onSessionCreate }: MentorComponentProps) => {
 
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [messages, setMessages] = useState<SavedMessage[]>([])
     const messagesRef = useRef<SavedMessage[]>([])
+    const sessionIdRef = useRef<string | undefined>(sessionId);
 
     const lottieRef = useRef<LottieRefCurrentProps>(null)
 
@@ -62,10 +67,25 @@ const MentorComponent = ({
     }, [isSpeaking, lottieRef])
 
     useEffect(() => {
-        const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
+        const onCallStart = async () => {
+            setCallStatus(CallStatus.ACTIVE);
+            // Create session when call starts (only for logged-in users)
+            if (!sessionIdRef.current && companionId) {
+                try {
+                    const session = await createSession(companionId);
+                    sessionIdRef.current = session.id;
+                    onSessionCreate?.(session.id);
+                } catch (error) {
+                    console.error('Error creating session:', error);
+                    // Continue even if session creation fails (guest mode)
+                }
+            }
+        };
         const onCallEnd = () => {
             setCallStatus(CallStatus.FINISHED);
-            addToSessionHistory(companionId, messagesRef.current);
+            if (sessionIdRef.current) {
+                updateSessionTranscript(sessionIdRef.current, messagesRef.current);
+            }
         };
         const onMessage = (message: Message) => {
             if (message.type === 'transcript' && message.transcriptType === 'final') {
@@ -116,7 +136,6 @@ const MentorComponent = ({
             serverMessages: [],
         }
 
-        // @ts-expect-error ignore
         vapi.start(configureAssistant(voice, style), assistantOverrides)
     }
 
